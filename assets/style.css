@@ -1,0 +1,40 @@
+body, html {
+    height: 100%;
+}
+  
+.content { 
+    /* The image used */
+    background-image: url("background.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    
+    color: white;
+    padding: 3%;
+}
+
+.bottom-right{
+    position: absolute;
+    bottom:25px;
+    right:25px;
+}
+
+.table{
+    background-color: #f3f6f7;
+}
+
+.min{
+    width:20%;
+    white-space: nowrap;
+}
+
+.scanning{
+    margin-top:20px;
+    width:100%;
+    height: 150px;
+}

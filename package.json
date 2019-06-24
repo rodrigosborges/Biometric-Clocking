@@ -1,12 +1,17 @@
 {
-  "name": "electron-quick-start",
+  "name": "biometric-clocking",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Aplicação desktop para gerenciamento de relógio de ponto",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "build": {
+    "appId": "com.electron.biometric-clocking"
+  },
+  "repository": "https://github.com/rodrigosborges/Biometric-Clocking",
   "keywords": [
     "Electron",
     "quick",
@@ -17,7 +22,8 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^5.0.0"
+    "electron": "^5.0.0",
+    "electron-builder": "^20.44.4"
   },
   "dependencies": {
     "jQuery": "^1.7.4"
