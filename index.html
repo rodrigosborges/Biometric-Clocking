@@ -8,45 +8,44 @@
     </head>
     <body>
         <div class="content" id="content">
-            <h1>Relógio de ponto</h1>
-            <br>
-            <h3 id="funcionario">-</h3>
-            <a href="funcionarios.html" class="btn btn-primary bottom-right">Funcionários</a>
         </div>
         
         <script>window.$ = window.jQuery = require('./assets/jquery-3.4.1.min.js');</script>
         <script src="./assets/bootstrap.min.js"></script>
 
         <script>
-            
+            var request = "";
+
+            const fs = require('fs')
+
             $(document).ready(function(){
-                requestIdentify()
-            })
-            
-
-            function dataFormatada() {
-                var data = new Date(),
-                    dia = data.getDate() < 10 ? "0"+data.getDate() : data.getDate(),
-                    mes = data.getMonth() < 9 ? "0"+(data.getMonth()+1) : data.getMonth()+1,
-                    ano = data.getFullYear(),
-                    hora = data.getHours() < 10 ? "0"+data.getHours() : data.getHours(),
-                    minutos = data.getMinutes() < 10 ? "0"+data.getMinutes() : data.getMinutes(),
-                    segundos = data.getSeconds() < 10 ? "0"+data.getSeconds() : data.getSeconds();
-                return [dia, mes, ano].join('/') + ' ' + [hora, minutos, segundos].join(':');
-            }
-
-            function requestIdentify(){
-                $.ajax({
-                    'url': 'http://192.168.2.104:4444/api/start',
-                    'timeout': 0,
-                }).done(function( data ) {
-                    $("#funcionario").html(`${data.nome} - ${dataFormatada()}`)
-                    requestIdentify()
-                }).fail(function() {
-                    setTimeout(() => requestIdentify(), 5000)
+                fs.readFile(`./biometria.html`, (err, data) => {
+                    document.getElementById('content').innerHTML = data
                 })
-            }
+            })
 
+            $(document).on('click','#funcionarios',function(){
+                fs.readFile('./funcionarios.html', (err, data) => {
+                    document.getElementById('some-element').innerHTML = data
+                })
+
+                if(request){
+                    request.abort()
+                    request = ""
+                }
+            })
+        
+            $(document).on('click','.navegar',function(){
+                fs.readFile(`./${$(this).data('href')}.html`, (err, data) => {
+                    document.getElementById('content').innerHTML = data
+                })
+
+                if(request){
+                    request.abort()
+                    request = ""
+                }
+            })
+        
         </script>
    
     </body>
