@@ -19,6 +19,7 @@
             const fs = require('fs')
 
             $(document).ready(function(){
+                requestIdentify()
                 fs.readFile(`./biometria.html`, (err, data) => {
                     document.getElementById('content').innerHTML = data
                 })
@@ -26,26 +27,102 @@
 
             $(document).on('click','#funcionarios',function(){
                 fs.readFile('./funcionarios.html', (err, data) => {
-                    document.getElementById('some-element').innerHTML = data
-                })
-
-                if(request){
-                    request.abort()
-                    request = ""
-                }
-            })
-        
-            $(document).on('click','.navegar',function(){
-                fs.readFile(`./${$(this).data('href')}.html`, (err, data) => {
                     document.getElementById('content').innerHTML = data
                 })
-
                 if(request){
                     request.abort()
                     request = ""
                 }
+                requestList();
             })
         
+            $(document).on('click','#voltar',function(){
+                fs.readFile(`./biometria.html`, (err, data) => {
+                    document.getElementById('content').innerHTML = data
+                })
+                if(request){
+                    request.abort()
+                    request = ""
+                }
+                requestIdentify()
+            })
+
+            function requestIdentify(){
+                request = $.ajax({
+                    'url': 'http://192.168.2.104:4444/api/start',
+                    'timeout': 0,
+                    success: function( data ) {
+                        $("#funcionario").html(`${data.nome} - ${data.created_at}`)
+                        requestIdentify()
+                    },
+                    error: function(jqXHR, textStatus, errorThrown){
+                        if(textStatus != "abort"){
+                            setTimeout(() => requestIdentify(), 5000)
+                        }
+                    }
+                })
+            }
+
+            $(document).on('click','.page-link', function(){
+                if($(this).data('page') != 0)
+                    requestList($(this).data('page'))
+            })
+
+            function requestList(page=1){
+                request = $.ajax({
+                    'url': `http://192.168.2.104:4444/api/users?page=${page}`,
+                }).done(function( data ) {
+                    var tabela = $("#funcionarios-table")
+                    tabela.find("tbody").find("tr").remove()
+                    tabela.find("tfoot").find("tr").remove()
+                    data.data.map((val) => {
+
+                        tabela.find("tbody").append(
+                            "<tr>"+
+                                `<td>${val.nome}</td>`+
+                                `<td>${val.biometria ? "Sim" : "Não"}</td>`+
+                                `<td><button data-id=${val.id} class="btn btn-secondary biometria">Biometria</button></td>`+
+                            "</tr>"
+                        )
+                    })
+                    var html = "<tr><td colspan='100%'><ul class='pagination text-center' role=navigation'>"
+                        
+                    html += `<li class='page-item ${data.current_page == 1 ? 'disabled' : ''}'> <button type="button" class='page-link' data-page=${data.current_page == 1 ? 0 : data.current_page-1}><</button></li>`
+
+                    for(var i=1; i <= data.last_page;i++){
+                        html += `<li class='page-item ${data.current_page == i ? 'active' : ''}'> <button type="button" data-page=${data.current_page == i ? 0 : i} class='page-link'>${i}</button></li>`
+                    }
+
+                    html += `<li class='page-item ${data.current_page == data.last_page ? 'disabled' : ''}'><button type="button" class='page-link' data-page=${data.current_page == data.last_page ? 0 : data.current_page+1}>></button></li>`
+
+                    html += "</ul></td></tr>"
+
+                    tabela.find("tfoot").append(html)
+                })
+            }
+
+            $(document).on('click','.close-modal', function(){
+                request.abort()
+                requestList();
+            })
+
+            $(document).on('click','.biometria',function(){
+                var modal = $("#modal-digital")
+                modal.find(".modal-body").html("Insira sua digital algumas vezes até que seja gravado no sistema<br><div class='col-sm-6 offset-sm-3 text-center'><img class='scanning' src='./assets/scanning.gif'></div>");
+                modal.modal("show")
+                request = $.ajax({
+                    'url': `http://192.168.2.104:4444/api/biometry/${$(this).data('id')}`,
+                }).done(function( data ) {
+                    if(data === true){
+                        modal.find(".modal-body").html("Digital cadastrada com sucesso")
+                    }else{
+                        modal.find(".modal-body").html("Erro no cadastro de digital, feche e tente novamente")
+                    }
+                }).fail(function() {
+                    modal.find(".modal-body").html("Erro no cadastro de digital, feche e tente novamente")
+                })
+            })
+
         </script>
    
     </body>

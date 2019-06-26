@@ -14,8 +14,11 @@ body, html {
     background-repeat: no-repeat;
     background-size: cover;
     
-    color: white;
     padding: 3%;
+}
+
+.white{
+    color: white;
 }
 
 .bottom-right{

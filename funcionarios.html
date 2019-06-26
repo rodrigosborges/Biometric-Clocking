@@ -1,8 +1,7 @@
-<h1>Funcionários</h1>
+<h1 class="white">Funcionários</h1>
 <br>
-<span class=""></span>
 <div class="col-md-12" id="funcionarios-table">
-    <table class="table table-hover">
+    <table class="table table-hover shadow-lg p-3 mb-5 bg-white rounded">
         <thead>
             <tr>
                 <th>Nome</th>
@@ -11,17 +10,12 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>teste</td>
-                <td>Não</td>
-                <td><button data-id=1 class="btn btn-secondary biometria">Biometria</button></td>
-            </tr>
         </tbody>
         <tfoot>
         </tfoot>
     </table>
 </div>
-<button data-href="biometria" class="btn btn-primary bottom-right navegar">Voltar</button>
+<button id="voltar" class="btn btn-primary bottom-right">Voltar</button>
 
 <div class="modal" id="modal-digital">
     <div class="modal-dialog">
@@ -42,50 +36,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    
-    $(document).ready(function(){
-        requestList();
-    })
-
-    $(document).on('click','.close-modal', function(){
-        requisicao.abort()
-        requestList();
-    })
-
-    function requestList(page=1){
-        $.ajax({
-            'url': `http://192.168.2.104:4444/api/users?page=${page}`,
-        }).done(function( data ) {
-            var tabela = $("#funcionarios-table").find("tbody")
-            tabela.find("tr").remove()
-            data.data.map((val) => {
-                tabela.append(
-                    "<tr>"+
-                        `<td>${val.nome}</td>`+
-                        `<td>${val.biometria ? "Sim" : "Não"}</td>`+
-                        `<td><button data-id=${val.id} class="btn btn-secondary biometria">Biometria</button></td>`+
-                    "</tr>"
-                )
-            })
-        })
-    }
-
-    $(document).on('click','.biometria',function(){
-        var modal = $("#modal-digital")
-        modal.find(".modal-body").html("Insira sua digital algumas vezes até que seja gravado no sistema<br><div class='col-sm-6 offset-sm-3 text-center'><img class='scanning' src='./assets/scanning.gif'></div>");
-        modal.modal("show")
-        requisicao = $.ajax({
-            'url': `http://192.168.2.104:4444/api/biometry/${$(this).data('id')}`,
-        }).done(function( data ) {
-            if(data === true){
-                modal.find(".modal-body").html("Digital cadastrada com sucesso")
-            }else{
-                modal.find(".modal-body").html("Erro no cadastro de digital, feche e tente novamente")
-            }
-        }).fail(function() {
-            modal.find(".modal-body").html("Erro no cadastro de digital, feche e tente novamente")
-        })
-    })
-</script>
