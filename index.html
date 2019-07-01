@@ -51,8 +51,8 @@
                 request = $.ajax({
                     'url': 'http://192.168.2.104:4444/api/start',
                     'timeout': 0,
-                    success: function( data ) {
-                        $("#funcionario").html(`${data.nome} - ${data.created_at}`)
+                    success: function( response ) {
+                        $("#funcionario").html(`<div class='mb-2'>${response.nome}</div><div class='mb-2'>${response.data.horario}</div><div class='mb-2'>${response.data.mensagem}</div>`)
                         requestIdentify()
                     },
                     error: function(jqXHR, textStatus, errorThrown){
