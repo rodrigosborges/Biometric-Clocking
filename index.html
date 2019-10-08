@@ -47,17 +47,33 @@
                 requestIdentify()
             })
 
+            $.ajax({
+                'url': 'http://localhost:4444/api/biometry/1',
+                'timeout': 0,
+                success: function( response ) {
+                    $("#funcionario").html(`<div class='mb-2'>${response.nome}</div><div class='mb-2'>${response.data.horario}</div><div class='mb-2'>${response.data.mensagem}</div>`)
+                    requestIdentify()
+                },
+                error: function(jqXHR, textStatus, errorThrown){
+                    if(textStatus != "abort"){
+                        setTimeout(() => requestIdentify(), 500)
+                    }
+                }
+            })
+
             function requestIdentify(){
                 request = $.ajax({
-                    'url': 'http://192.168.2.104:4444/api/start',
+                    'url': 'http://localhost:4444/api/start',
                     'timeout': 0,
                     success: function( response ) {
-                        $("#funcionario").html(`<div class='mb-2'>${response.nome}</div><div class='mb-2'>${response.data.horario}</div><div class='mb-2'>${response.data.mensagem}</div>`)
+                        if(response != false){
+                            $("#funcionario").html(`<div class='mb-2'>${response.nome}</div><div class='mb-2'>${response.data.horario}</div><div class='mb-2'>${response.data.mensagem}</div>`)
+                        }
                         requestIdentify()
                     },
                     error: function(jqXHR, textStatus, errorThrown){
                         if(textStatus != "abort"){
-                            setTimeout(() => requestIdentify(), 5000)
+                            setTimeout(() => requestIdentify(), 500)
                         }
                     }
                 })
@@ -70,7 +86,7 @@
 
             function requestList(page=1){
                 request = $.ajax({
-                    'url': `http://192.168.2.104:4444/api/users?page=${page}`,
+                    'url': `http://localhost:4444/api/users?page=${page}`,
                 }).done(function( data ) {
                     var tabela = $("#funcionarios-table")
                     tabela.find("tbody").find("tr").remove()
@@ -109,9 +125,9 @@
             $(document).on('click','.biometria',function(){
                 var modal = $("#modal-digital")
                 modal.find(".modal-body").html("Insira sua digital algumas vezes até que seja gravado no sistema<br><div class='col-sm-6 offset-sm-3 text-center'><img class='scanning' src='./assets/scanning.gif'></div>");
-                modal.modal("show")
+                modal.modal({backdrop: 'static', keyboard: false})
                 request = $.ajax({
-                    'url': `http://192.168.2.104:4444/api/biometry/${$(this).data('id')}`,
+                    'url': `http://localhost:4444/api/biometry/${$(this).data('id')}`,
                 }).done(function( data ) {
                     if(data === true){
                         modal.find(".modal-body").html("Digital cadastrada com sucesso")
