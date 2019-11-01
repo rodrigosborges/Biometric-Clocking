@@ -26,6 +26,7 @@
     "electron-builder": "^20.44.4"
   },
   "dependencies": {
-    "jQuery": "^1.7.4"
+    "jQuery": "^1.7.4",
+    "socket.io-client": "^2.3.0"
   }
 }
