@@ -5,11 +5,18 @@ const {app, BrowserWindow} = require('electron')
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+const io = require('socket.io-client');
+const socket = io.connect('http://localhost:4444')
+
+//script to start node-biometric-clocking-server
+const exec = require('child_process').exec
+exec('sh /home/rodrigo/Desktop/server.sh', () => {})
+
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 720,
     icon: __dirname + `/assets/biometric.png`,
     webPreferences: {
       nodeIntegration: true
@@ -29,6 +36,13 @@ function createWindow () {
     // when you should delete the corresponding element.
     mainWindow = null
   })
+  
+  mainWindow.on('closed', function(){
+    socket.emit('users', 0)
+    mainWindow = null;
+    app.quit();
+  });
+  
 }
 
 // This method will be called when Electron has finished
