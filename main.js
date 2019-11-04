@@ -8,10 +8,6 @@ let mainWindow
 const io = require('socket.io-client');
 const socket = io.connect('http://localhost:4444')
 
-//script to start node-biometric-clocking-server
-const exec = require('child_process').exec
-exec('sh /home/rodrigo/Desktop/server.sh', () => {})
-
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({

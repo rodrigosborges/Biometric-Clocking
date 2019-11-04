@@ -1,12 +1,13 @@
 var request = "";
 
-const fs = require('fs')
+const fs = window.require('fs')
+const path = window.require('path');
 
 const socket = io.connect('http://localhost:4444')
 
 $(document).ready(function(){
 
-    fs.readFile(`./biometria.html`, (err, data) => {
+    fs.readFile(`${path.join(__dirname, 'biometria.html')}`, (err, data) => {
         document.getElementById('content').innerHTML = data
     })
 
@@ -77,7 +78,7 @@ $(document).ready(function(){
 
 $(document).on('click','#funcionarios',function(){
 
-    fs.readFile('./funcionarios.html', (err, data) => {
+    fs.readFile(`${path.join(__dirname, 'funcionarios.html')}`, (err, data) => {
         document.getElementById('content').innerHTML = data
     })
 
@@ -85,7 +86,7 @@ $(document).on('click','#funcionarios',function(){
 })
 
 $(document).on('click','#voltar',function(){
-    fs.readFile(`./biometria.html`, (err, data) => {
+    fs.readFile(`${path.join(__dirname, 'biometria.html')}`, (err, data) => {
         document.getElementById('content').innerHTML = data
     })
     

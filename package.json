@@ -6,10 +6,14 @@
   "scripts": {
     "start": "electron .",
     "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "dist": "electron-builder",
+    "dist:linux": "electron-builder --linux"
   },
   "build": {
-    "appId": "com.electron.biometric-clocking"
+    "appId": "com.electron.biometric-clocking",
+    "linux": {
+      "category": "Utility"
+    }
   },
   "repository": "https://github.com/rodrigosborges/Biometric-Clocking",
   "keywords": [
@@ -26,7 +30,10 @@
     "electron-builder": "^20.44.4"
   },
   "dependencies": {
+    "fs": "0.0.1-security",
+    "fs-extra": "^8.1.0",
     "jQuery": "^1.7.4",
-    "socket.io-client": "^2.3.0"
+    "socket.io-client": "^2.3.0",
+    "sudo-js": "^1.0.2"
   }
 }
