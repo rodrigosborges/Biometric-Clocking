@@ -1,7 +1,7 @@
 {
   "name": "biometric-clocking",
   "version": "1.0.0",
-  "description": "Aplicação desktop para gerenciamento de relógio de ponto",
+  "description": "Aplicação desktop para gerenciamento de relógio de ponto - FreeERP",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -10,6 +10,7 @@
     "dist:linux": "electron-builder --linux"
   },
   "build": {
+    "productName": "Biometric Clocking",
     "appId": "com.electron.biometric-clocking",
     "linux": {
       "category": "Utility"
@@ -26,7 +27,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron": "^5.0.0",
+    "electron": "^7.0.1",
     "electron-builder": "^20.44.4"
   },
   "dependencies": {
