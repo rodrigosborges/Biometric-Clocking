@@ -16,7 +16,6 @@ function createWindow () {
     icon: __dirname + `/assets/biometric.png`,
     webPreferences: {
       nodeIntegration: true,
-      devTools: false,
     }
   })
 

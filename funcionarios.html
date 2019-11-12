@@ -1,21 +1,35 @@
 <h1 class="white">Funcionários</h1>
 <br>
-<div class="col-md-12" id="funcionarios-table">
-    <table class="table table-borderless shadow-lg p-3 mb-5 bg-white rounded">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th class="min">Possui biometria</th>
-                <th class="min">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-        <tfoot>
-        </tfoot>
-    </table>
+
+<div class="row mb-3">
+    <div class="col-md-10 mb-3">
+        <input class="form-control" placeholder="Busque pelo nome funcionário" name="funcionario">
+    </div>
+    <div class="col-md-2 text-center">
+        <button class="btn btn-primary" id="search">Buscar</button>
+    </div>
 </div>
-<button id="voltar" class="btn btn-primary bottom-right">Voltar</button>
+
+<div class="row">
+    <div class="col-md-12" id="funcionarios-table">
+        <table class="table table-borderless shadow-lg p-3 mb-5 bg-white rounded">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</yh>
+                    <th class="min">Possui biometria</th>
+                    <th class="min">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<button id="voltar" class="btn btn-biometric bottom-right">Voltar</button>
 
 <div class="modal " id="modal-digital">
     <div class="modal-dialog modal-lg">
